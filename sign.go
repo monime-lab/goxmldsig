@@ -13,7 +13,7 @@ import (
 	"fmt"
 
 	"github.com/beevik/etree"
-	"github.com/russellhaering/goxmldsig/etreeutils"
+	"github.com/monime-lab/goxmldsig/etreeutils"
 )
 
 type SigningContext struct {
@@ -21,10 +21,11 @@ type SigningContext struct {
 
 	// This field will be nil and unused if the SigningContext is created with
 	// NewSigningContext
-	KeyStore      X509KeyStore
-	IdAttribute   string
-	Prefix        string
-	Canonicalizer Canonicalizer
+	KeyStore                 X509KeyStore
+	IdAttribute              string
+	Prefix                   string
+	Canonicalizer            Canonicalizer
+	SignatureMethodAlgorithm string
 
 	// KeyStore is mutually exclusive with signer and certs
 	signer crypto.Signer
@@ -303,6 +304,9 @@ func (ctx *SigningContext) SignEnveloped(el *etree.Element) (*etree.Element, err
 }
 
 func (ctx *SigningContext) GetSignatureMethodIdentifier() string {
+	if ctx.SignatureMethodAlgorithm != "" {
+		return ctx.SignatureMethodAlgorithm
+	}
 	algo := ctx.getPublicKeyAlgorithm()
 
 	if ident, ok := signatureMethodIdentifiers[algo][ctx.Hash]; ok {

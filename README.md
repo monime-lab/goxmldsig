@@ -15,16 +15,17 @@ $ go get github.com/russellhaering/goxmldsig
 
 ## Usage
 
-Include the [`types.Signature`](https://pkg.go.dev/github.com/russellhaering/goxmldsig/types#Signature) struct from this package in your application messages.
+Include the [`types.Signature`](https://pkg.go.dev/github.com/russellhaering/goxmldsig/types#Signature) struct from this
+package in your application messages.
 
 ```go
 import (
-    sigtypes "github.com/russellhaering/goxmldsig/types"
+sigtypes "github.com/russellhaering/goxmldsig/types"
 )
 
 type AppHdr struct {
-    ...
-    Signature *sigtypes.Signature
+...
+Signature *sigtypes.Signature
 }
 ```
 
@@ -72,26 +73,26 @@ func main() {
 ```go
 // Validate an element against a root certificate
 func validate(root *x509.Certificate, el *etree.Element) {
-    // Construct a signing context with one or more roots of trust.
-    ctx := dsig.NewDefaultValidationContext(&dsig.MemoryX509CertificateStore{
-        Roots: []*x509.Certificate{root},
-    })
+// Construct a signing context with one or more roots of trust.
+ctx := dsig.NewDefaultValidationContext(&dsig.MemoryX509CertificateStore{
+Roots: []*x509.Certificate{root},
+})
 
-    // It is important to only use the returned validated element.
-    // See: https://www.w3.org/TR/xmldsig-bestpractices/#check-what-is-signed
-    validated, err := ctx.Validate(el)
-    if err != nil {
-        panic(err)
-    }
+// It is important to only use the returned validated element.
+// See: https://www.w3.org/TR/xmldsig-bestpractices/#check-what-is-signed
+validated, err := ctx.Validate(el)
+if err != nil {
+panic(err)
+}
 
-    doc := etree.NewDocument()
-    doc.SetRoot(validated)
-    str, err := doc.WriteToString()
-    if err != nil {
-        panic(err)
-    }
+doc := etree.NewDocument()
+doc.SetRoot(validated)
+str, err := doc.WriteToString()
+if err != nil {
+panic(err)
+}
 
-    println(str)
+println(str)
 }
 ```
 

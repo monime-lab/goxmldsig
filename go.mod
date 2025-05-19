@@ -1,4 +1,4 @@
-module github.com/russellhaering/goxmldsig
+module github.com/monime-lab/goxmldsig
 
 go 1.21.0
 
